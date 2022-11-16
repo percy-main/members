@@ -1,6 +1,8 @@
 import * as React from "react";
 import type { HeadFC } from "gatsby";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import * as config from "../config";
 
 const pageStyles = {
   color: "#232129",
@@ -19,14 +21,36 @@ const paragraphStyles = {
 };
 
 const IndexPage = () => {
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, user, getAccessTokenSilently } =
+    useAuth0();
+
+  const [greeting, setGreeting] = React.useState(
+    "Waiting for login to get a greeting"
+  );
+
+  React.useEffect(() => {
+    console.log("Fetching greeting");
+    if (!isAuthenticated) {
+      return;
+    }
+    getAccessTokenSilently().then((token) =>
+      axios
+        .get(config.GATSBY_API_URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => setGreeting(response.data))
+        .catch((err) => setGreeting(err.message))
+    );
+  }, [setGreeting, isAuthenticated]);
 
   return (
     <main style={pageStyles}>
       <h1 style={headingStyles}>Percy Main Cricket Club</h1>
       <p style={paragraphStyles}>Watch this space</p>
       {isAuthenticated ? (
-        <span>Hello {user?.name}</span>
+        <span>{greeting}</span>
       ) : (
         <button onClick={loginWithRedirect}>Login</button>
       )}
