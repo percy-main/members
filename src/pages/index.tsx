@@ -5,6 +5,7 @@ import { Configuration, DefaultApi } from "../__generated__/matchFeesApi";
 import { GATSBY_API_URL } from "../config";
 import { AxiosError } from "axios";
 import { MatchFeesApi } from "../api";
+import { ApiResult } from "../api/types";
 
 const pageStyles = {
   color: "#232129",
@@ -38,11 +39,19 @@ const IndexPage = () => {
     getAccessTokenSilently().then((accessToken) =>
       new MatchFeesApi({ basePath: GATSBY_API_URL, accessToken }).user
         .getMe()
-        .then(({ name }) => setGreeting(`Hello ${name}`))
-        .catch((err: AxiosError) => {
-          err.response?.status === 404
-            ? setGreeting(`Let's get you set up`)
-            : setGreeting(`Looks like we had some trouble`);
+        .then((response) => {
+          switch (response.type) {
+            case ApiResult.success:
+              return setGreeting(`Hello ${response.data.name}`);
+            case ApiResult.notFound:
+              return setGreeting(
+                `We don't seem to have a record for you, let's get started!`
+              );
+            case ApiResult.error:
+              return setGreeting(
+                `Our servers are having a little trouble right now.`
+              );
+          }
         })
     );
   }, [setGreeting, isAuthenticated]);
