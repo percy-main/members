@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Configuration, DefaultApi } from "../__generated__/matchFeesApi";
 import { GATSBY_API_URL } from "../config";
 import { AxiosError } from "axios";
+import { MatchFeesApi } from "../api";
 
 const pageStyles = {
   color: "#232129",
@@ -34,10 +35,10 @@ const IndexPage = () => {
     if (!isAuthenticated) {
       return;
     }
-    getAccessTokenSilently().then((token) =>
-      new DefaultApi(new Configuration({ basePath: GATSBY_API_URL }))
-        .userControllerGetMe(token)
-        .then((response) => setGreeting(`Hello ${response.data.name}`))
+    getAccessTokenSilently().then((accessToken) =>
+      new MatchFeesApi({ basePath: GATSBY_API_URL, accessToken }).user
+        .getMe()
+        .then(({ name }) => setGreeting(`Hello ${name}`))
         .catch((err: AxiosError) => {
           err.status === 404
             ? setGreeting(`Let's get you set up`)
