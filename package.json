@@ -12,7 +12,8 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:sdk": "openapi-generator-cli generate"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.12.0",
