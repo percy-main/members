@@ -40,7 +40,7 @@ const IndexPage = () => {
         .getMe()
         .then(({ name }) => setGreeting(`Hello ${name}`))
         .catch((err: AxiosError) => {
-          err.status === 404
+          err.response?.status === 404
             ? setGreeting(`Let's get you set up`)
             : setGreeting(`Looks like we had some trouble`);
         })
