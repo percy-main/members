@@ -1,8 +1,9 @@
 import * as React from "react";
 import type { HeadFC } from "gatsby";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
-import * as config from "../config";
+import { Configuration, DefaultApi } from "../__generated__/matchFeesApi";
+import { GATSBY_API_URL } from "../config";
+import { AxiosError } from "axios";
 
 const pageStyles = {
   color: "#232129",
@@ -34,14 +35,14 @@ const IndexPage = () => {
       return;
     }
     getAccessTokenSilently().then((token) =>
-      axios
-        .get(config.GATSBY_API_URL, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      new DefaultApi(new Configuration({ basePath: GATSBY_API_URL }))
+        .userControllerGetMe(token)
+        .then((response) => setGreeting(`Hello ${response.data.name}`))
+        .catch((err: AxiosError) => {
+          err.status === 404
+            ? setGreeting(`Let's get you set up`)
+            : setGreeting(`Looks like we had some trouble`);
         })
-        .then((response) => setGreeting(response.data))
-        .catch((err) => setGreeting(err.message))
     );
   }, [setGreeting, isAuthenticated]);
 
