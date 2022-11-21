@@ -11,7 +11,7 @@ SuperTokens.init({
     apiDomain: config.GATSBY_API_DOMAIN,
     websiteDomain: config.GATSBY_APP_DOMAIN,
     apiBasePath: "/auth",
-    websiteBasePath: "/auth",
+    websiteBasePath: "/login",
   },
   recipeList: [EmailPassword.init(), Session.init()],
 });
@@ -19,9 +19,5 @@ SuperTokens.init({
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
 }) => {
-  if (SuperTokens.canHandleRoute()) {
-    // This renders the login UI on the /auth route
-    return SuperTokens.getRoutingComponent()!;
-  }
   return <SuperTokensWrapper>{element}</SuperTokensWrapper>;
 };

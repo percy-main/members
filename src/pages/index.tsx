@@ -48,7 +48,7 @@ const IndexPage = () => {
 
   const logout = React.useCallback(async () => {
     await signOut();
-    window.location.href = "/auth";
+    window.location.href = "/login";
   }, []);
 
   return (
