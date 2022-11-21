@@ -19,5 +19,8 @@ SuperTokens.init({
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
 }) => {
+  if (SuperTokens.canHandleRoute()) {
+    return SuperTokens.getRoutingComponent()!;
+  }
   return <SuperTokensWrapper>{element}</SuperTokensWrapper>;
 };
