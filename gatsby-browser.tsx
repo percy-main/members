@@ -1,19 +1,27 @@
 import React from "react";
 import { GatsbyBrowser } from "gatsby";
-import { Auth0Provider } from "@auth0/auth0-react";
+import SuperTokens, { SuperTokensWrapper } from "supertokens-auth-react";
+import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
+import Session from "supertokens-auth-react/recipe/session";
 import * as config from "./src/config";
+
+SuperTokens.init({
+  appInfo: {
+    appName: "Percy Main",
+    apiDomain: config.GATSBY_API_DOMAIN,
+    websiteDomain: config.GATSBY_APP_DOMAIN,
+    apiBasePath: "/auth",
+    websiteBasePath: "/auth",
+  },
+  recipeList: [EmailPassword.init(), Session.init()],
+});
 
 export const wrapRootElement: GatsbyBrowser["wrapRootElement"] = ({
   element,
-}) => (
-  <Auth0Provider
-    domain={config.GATSBY_AUTH_DOMAIN}
-    clientId={config.GATSBY_AUTH_CLIENT_ID}
-    audience={config.GATSBY_API_AUDIENCE}
-    redirectUri={window.location.origin}
-    useRefreshTokens={true}
-    cacheLocation="localstorage"
-  >
-    {element}
-  </Auth0Provider>
-);
+}) => {
+  if (SuperTokens.canHandleRoute()) {
+    // This renders the login UI on the /auth route
+    return SuperTokens.getRoutingComponent()!;
+  }
+  return <SuperTokensWrapper>{element}</SuperTokensWrapper>;
+};

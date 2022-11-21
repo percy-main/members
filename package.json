@@ -16,11 +16,11 @@
     "generate:sdk": "openapi-generator-cli generate"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^1.12.0",
     "axios": "^1.1.3",
     "gatsby": "^4.24.4",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "supertokens-auth-react": "^0.27.2"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.5.2",
