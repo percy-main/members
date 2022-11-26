@@ -1,40 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { api, ApiResult } from "api";
-import { User } from "__generated__/matchFeesApi";
 import { match } from "ts-pattern";
 import { Text } from "@mantine/core";
-import { SessionAuth } from "supertokens-auth-react/recipe/session";
-
-type UserState =
-  | { type: "ready"; data: User }
-  | { type: "onboarding-required" }
-  | { type: "error"; data: string }
-  | { type: "loading" };
+import { DetailsForm } from "./DetailsForm";
+import { useQuery } from "react-query";
 
 export const Onboarding: React.FC<{ children: React.ReactElement }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<UserState>({ type: "loading" });
+  const response = useQuery("current-user", () => api.user.getMe());
 
-  useEffect(() => {
-    api.user.getMe().then((response) => {
-      switch (response.type) {
-        case ApiResult.success:
-          return setUser({ type: "ready", data: response.data });
-        case ApiResult.notFound:
-          return setUser({ type: "onboarding-required" });
-        case ApiResult.error:
-          return setUser({ type: "error", data: response.error.message });
-      }
-    });
-  }, [setUser]);
-
-  const onboarder = match(user)
-    .with({ type: "ready" }, () => children)
-    .with({ type: "loading" }, () => <Text>Loading</Text>)
-    .with({ type: "error" }, (msg) => <Text>Error: {msg.data}</Text>)
-    .with({ type: "onboarding-required" }, () => <Text>Onboarding</Text>)
-    .exhaustive();
-
-  return <SessionAuth>{onboarder}</SessionAuth>;
+  return match(response)
+    .with(
+      { status: "success", data: { type: ApiResult.success } },
+      () => children
+    )
+    .with({ status: "success", data: { type: ApiResult.notFound } }, () => (
+      <DetailsForm />
+    ))
+    .with(
+      { status: "success", data: { type: ApiResult.error } },
+      (response) => <Text>{response.data.error.message}</Text>
+    )
+    .with({ status: "loading" }, () => <Text>Loading</Text>)
+    .with({ status: "error" }, () => (
+      <Text>Issue reaching our API - check your connection?</Text>
+    ))
+    .run();
 };

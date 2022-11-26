@@ -19,7 +19,7 @@ export const Layout: React.FC<{ children: React.ReactElement }> = ({
             <Text size="sm">Home</Text>
           </Navbar.Section>
           <Navbar.Section>
-            <UnstyledButton onClick={logout}>
+            <UnstyledButton mb="xl" onClick={logout}>
               <Text size="sm">Logout</Text>
             </UnstyledButton>
           </Navbar.Section>

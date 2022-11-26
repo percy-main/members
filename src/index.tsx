@@ -1,14 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { Auth } from "./Auth";
+import { LoginForm } from "./LoginForm";
 import SuperTokens, { SuperTokensWrapper } from "supertokens-auth-react";
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
-import Session from "supertokens-auth-react/recipe/session";
+import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import * as config from "./config";
 import { Home } from "./routes/home";
 import { MantineProvider } from "@mantine/core";
 import { Onboarding } from "./routes/onboarding";
 import { Layout } from "./Layout";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 SuperTokens.init({
   appInfo: {
@@ -29,13 +31,18 @@ root.render(
   <React.StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <SuperTokensWrapper>
-        <Auth>
-          <Onboarding>
-            <Layout>
-              <Home />
-            </Layout>
-          </Onboarding>
-        </Auth>
+        <QueryClientProvider client={new QueryClient()}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <LoginForm>
+            <SessionAuth>
+              <Onboarding>
+                <Layout>
+                  <Home />
+                </Layout>
+              </Onboarding>
+            </SessionAuth>
+          </LoginForm>
+        </QueryClientProvider>
       </SuperTokensWrapper>
     </MantineProvider>
   </React.StrictMode>

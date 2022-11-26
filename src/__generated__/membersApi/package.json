@@ -1,7 +1,7 @@
 {
-  "name": "matchFeesApi",
+  "name": "membersApi",
   "version": "1.0",
-  "description": "OpenAPI client for matchFeesApi",
+  "description": "OpenAPI client for membersApi",
   "author": "OpenAPI-Generator Contributors",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "typescript",
     "openapi-client",
     "openapi-generator",
-    "matchFeesApi"
+    "membersApi"
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
