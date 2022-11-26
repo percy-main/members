@@ -1,3 +1,4 @@
+import { REACT_APP_API_DOMAIN } from "../config";
 import { Configuration, DefaultApi } from "../__generated__/matchFeesApi";
 import { RequestRunner } from "./runner";
 
@@ -5,7 +6,7 @@ export interface MatchFeesApiOptions {
   basePath: string;
 }
 
-export class MatchFeesApi {
+class Api {
   private readonly apiClient: DefaultApi;
 
   constructor({ basePath }: MatchFeesApiOptions) {
@@ -13,11 +14,11 @@ export class MatchFeesApi {
   }
 
   public get user() {
-    return new MatchFeesUserApi(this.apiClient);
+    return new UserApi(this.apiClient);
   }
 }
 
-class MatchFeesUserApi {
+class UserApi {
   private readonly requestRunner: RequestRunner = new RequestRunner();
 
   constructor(private readonly apiClient: DefaultApi) {}
@@ -28,3 +29,6 @@ class MatchFeesUserApi {
     );
   }
 }
+
+export const api = new Api({ basePath: REACT_APP_API_DOMAIN });
+export * from "./types";

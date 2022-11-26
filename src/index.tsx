@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { App } from "./App";
+import { Auth } from "./Auth";
 import SuperTokens, { SuperTokensWrapper } from "supertokens-auth-react";
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import Session from "supertokens-auth-react/recipe/session";
 import * as config from "./config";
 import { Home } from "./routes/home";
 import { MantineProvider } from "@mantine/core";
+import { Onboarding } from "./routes/onboarding";
+import { Layout } from "./Layout";
 
 SuperTokens.init({
   appInfo: {
@@ -27,9 +29,13 @@ root.render(
   <React.StrictMode>
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <SuperTokensWrapper>
-        <App>
-          <Home />
-        </App>
+        <Auth>
+          <Onboarding>
+            <Layout>
+              <Home />
+            </Layout>
+          </Onboarding>
+        </Auth>
       </SuperTokensWrapper>
     </MantineProvider>
   </React.StrictMode>
