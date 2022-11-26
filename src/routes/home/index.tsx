@@ -1,8 +1,9 @@
 import React from "react";
-import { SessionAuth, signOut } from "supertokens-auth-react/recipe/session";
+import { SessionAuth } from "supertokens-auth-react/recipe/session";
 import { REACT_APP_API_DOMAIN } from "config";
 import { MatchFeesApi } from "api";
 import { ApiResult } from "api/types";
+import { Text } from "@mantine/core";
 
 export const Home: React.FC = () => {
   const [greeting, setGreeting] = React.useState(
@@ -28,20 +29,9 @@ export const Home: React.FC = () => {
       });
   }, [setGreeting]);
 
-  const logout = React.useCallback(async () => {
-    await signOut();
-    window.location.href = "/login";
-  }, []);
-
   return (
     <SessionAuth>
-      <main>
-        <h1>Percy Main Cricket Club</h1>
-        <p>Watch this space</p>
-        <hr />
-        <p>{greeting}</p>
-        <button onClick={logout}>Logout</button>
-      </main>
+      <Text>{greeting}</Text>
     </SessionAuth>
   );
 };

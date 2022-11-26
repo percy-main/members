@@ -1,5 +1,6 @@
 import React from "react";
 import SuperTokens from "supertokens-auth-react";
+import { Layout } from "./Layout";
 
 export const App: React.FC<{ children: React.ReactElement }> = ({
   children,
@@ -8,5 +9,5 @@ export const App: React.FC<{ children: React.ReactElement }> = ({
     return SuperTokens.getRoutingComponent();
   }
 
-  return children;
+  return <Layout>{children}</Layout>;
 };
