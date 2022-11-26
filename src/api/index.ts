@@ -1,6 +1,5 @@
-import { Configuration, DefaultApi, User } from "../__generated__/matchFeesApi";
+import { Configuration, DefaultApi } from "../__generated__/matchFeesApi";
 import { RequestRunner } from "./runner";
-import { ApiResponse, ApiResult } from "./types";
 
 export interface MatchFeesApiOptions {
   basePath: string;

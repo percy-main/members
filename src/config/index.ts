@@ -6,15 +6,15 @@ const getEnv = (val: string | undefined, name: string) => {
   return val;
 };
 
-export const GATSBY_APP_DOMAIN = getEnv(
-  process.env.GATSBY_APP_DOMAIN,
-  "GATSBY_APP_DOMAIN"
+export const REACT_APP_APP_DOMAIN = getEnv(
+  process.env.REACT_APP_APP_DOMAIN,
+  "REACT_APP_APP_DOMAIN"
 );
-export const GATSBY_API_DOMAIN = getEnv(
-  process.env.GATSBY_API_DOMAIN,
-  "GATSBY_API_DOMAIN"
+export const REACT_APP_API_DOMAIN = getEnv(
+  process.env.REACT_APP_API_DOMAIN,
+  "REACT_APP_API_DOMAIN"
 );
-export const GATSBY_AUTH_DOMAIN = getEnv(
-  process.env.GATSBY_AUTH_DOMAIN,
-  "GATSBY_AUTH_DOMAIN"
+export const REACT_APP_AUTH_DOMAIN = getEnv(
+  process.env.REACT_APP_AUTH_DOMAIN,
+  "REACT_APP_AUTH_DOMAIN"
 );
