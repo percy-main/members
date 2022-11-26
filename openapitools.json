@@ -6,10 +6,10 @@
     "generators": {
       "v1.0": {
         "generatorName": "typescript-axios",
-        "output": "#{cwd}/src/__generated__/matchFeesApi",
-        "inputSpec": "https://matchfees.percymain.org/openapi-json",
+        "output": "#{cwd}/src/__generated__/membersApi",
+        "inputSpec": "http://localhost:3000/openapi-json",
         "additionalProperties": {
-          "npmName": "matchFeesApi",
+          "npmName": "membersApi",
           "withInterfaces": true
         }
       }

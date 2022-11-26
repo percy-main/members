@@ -1,5 +1,9 @@
 import { REACT_APP_API_DOMAIN } from "../config";
-import { Configuration, DefaultApi } from "../__generated__/matchFeesApi";
+import {
+  Configuration,
+  CreateUserDTO,
+  DefaultApi,
+} from "../__generated__/membersApi";
 import { RequestRunner } from "./runner";
 
 export interface MatchFeesApiOptions {
@@ -23,11 +27,17 @@ class UserApi {
 
   constructor(private readonly apiClient: DefaultApi) {}
 
-  public async getMe() {
+  public getMe = () => {
     return this.requestRunner.runApiRequest(() =>
       this.apiClient.userControllerGetMe()
     );
-  }
+  };
+
+  public createUser = (user: CreateUserDTO) => {
+    return this.requestRunner.runApiRequest(() =>
+      this.apiClient.userControllerCreateUser(user)
+    );
+  };
 }
 
 export const api = new Api({ basePath: REACT_APP_API_DOMAIN });
