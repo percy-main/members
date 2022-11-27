@@ -8,7 +8,7 @@ import * as config from "./config";
 import { Home } from "./routes/home";
 import { MantineProvider } from "@mantine/core";
 import { Onboarding } from "./routes/onboarding";
-import { Layout } from "./Layout";
+import { Layout } from "./layout/Layout";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
@@ -32,7 +32,7 @@ root.render(
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <SuperTokensWrapper>
         <QueryClientProvider client={new QueryClient()}>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
           <LoginForm>
             <SessionAuth>
               <Onboarding>

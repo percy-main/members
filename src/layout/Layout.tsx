@@ -1,6 +1,7 @@
-import { AppShell, Navbar, Header, Text, UnstyledButton } from "@mantine/core";
+import { AppShell, Navbar, Header, Text, Image, Group } from "@mantine/core";
 import { useCallback } from "react";
 import { signOut } from "supertokens-auth-react/recipe/emailpassword";
+import { NavButton } from "./NavButton";
 
 export const Layout: React.FC<{ children: React.ReactElement }> = ({
   children,
@@ -16,18 +17,19 @@ export const Layout: React.FC<{ children: React.ReactElement }> = ({
       navbar={
         <Navbar width={{ base: 300 }} p="xs">
           <Navbar.Section grow>
-            <Text size="sm">Home</Text>
+            <NavButton>Home</NavButton>
           </Navbar.Section>
           <Navbar.Section>
-            <UnstyledButton mb="xl" onClick={logout}>
-              <Text size="sm">Logout</Text>
-            </UnstyledButton>
+            <NavButton onClick={logout}>Logout</NavButton>
           </Navbar.Section>
         </Navbar>
       }
       header={
-        <Header height={60} p="xs">
-          <Text size="xl">Percy Main Cricket Club</Text>
+        <Header height={80} p="xs">
+          <Group>
+            <Image src="club_logo.jpeg" width={60} />
+            <Text size="xl">Percy Main Cricket Club</Text>
+          </Group>
         </Header>
       }
     >
