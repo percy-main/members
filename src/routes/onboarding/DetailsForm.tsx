@@ -75,7 +75,6 @@ export const DetailsForm: React.FC = () => {
         <Group position="center" mt="xl">
           <form
             onSubmit={form.onSubmit((values) => {
-              console.log({ values });
               mutation.mutateAsync({
                 ...values,
                 dob: values.dob!.toISOString(),

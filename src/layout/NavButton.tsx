@@ -1,12 +1,28 @@
 import { UnstyledButton, Text } from "@mantine/core";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export type NavButtonProps = {
+export type NavButtonClickProps = {
   onClick?: () => void;
   children: string;
 };
 
-export const NavButton: React.FC<NavButtonProps> = ({ onClick, children }) => {
+export type NavButtonToProps = {
+  to?: string;
+  children: string;
+};
+
+export type NavButtonProps = NavButtonClickProps | NavButtonToProps;
+
+export const NavButton: React.FC<NavButtonProps> = ({ children, ...rest }) => {
+  const navigate = useNavigate();
+  const action =
+    "onClick" in rest
+      ? rest.onClick
+      : "to" in rest && rest.to
+      ? () => navigate(rest.to!)
+      : undefined;
+
   return (
     <UnstyledButton
       sx={(theme) => ({
@@ -20,7 +36,7 @@ export const NavButton: React.FC<NavButtonProps> = ({ onClick, children }) => {
           backgroundColor: theme.colors.gray[0],
         },
       })}
-      onClick={onClick}
+      onClick={action ?? undefined}
     >
       <Text size="sm">{children}</Text>
     </UnstyledButton>

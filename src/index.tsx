@@ -5,12 +5,11 @@ import SuperTokens, { SuperTokensWrapper } from "supertokens-auth-react";
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import * as config from "./config";
-import { Home } from "./routes/home";
 import { MantineProvider } from "@mantine/core";
-import { Onboarding } from "./routes/onboarding";
-import { Layout } from "./layout/Layout";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { router } from "./routes";
+import { RouterProvider } from "react-router-dom";
 
 SuperTokens.init({
   appInfo: {
@@ -20,7 +19,22 @@ SuperTokens.init({
     apiBasePath: "/auth",
     websiteBasePath: "/login",
   },
-  recipeList: [EmailPassword.init(), Session.init()],
+  recipeList: [
+    EmailPassword.init({
+      getRedirectionURL: async (context) => {
+        if (context.action === "SUCCESS") {
+          return (
+            "/onboarding" +
+            (context.redirectToPath
+              ? `?redirectToPath=${context.redirectToPath}`
+              : "")
+          );
+        }
+        return undefined;
+      },
+    }),
+    Session.init(),
+  ],
 });
 
 const root = ReactDOM.createRoot(
@@ -35,11 +49,7 @@ root.render(
           <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
           <LoginForm>
             <SessionAuth>
-              <Onboarding>
-                <Layout>
-                  <Home />
-                </Layout>
-              </Onboarding>
+              <RouterProvider router={router} />
             </SessionAuth>
           </LoginForm>
         </QueryClientProvider>
