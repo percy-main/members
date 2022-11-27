@@ -78,7 +78,6 @@ export const DetailsForm: React.FC = () => {
               mutation.mutateAsync({
                 ...values,
                 dob: values.dob!.toISOString(),
-                identityId: session.userId,
               });
             })}
             style={{ maxWidth: "320px", width: "100%" }}

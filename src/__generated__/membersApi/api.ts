@@ -28,12 +28,6 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
  */
 export interface CreateUserDTO {
     /**
-     * Identity ID
-     * @type {string}
-     * @memberof CreateUserDTO
-     */
-    'identityId': string;
-    /**
      * Name
      * @type {string}
      * @memberof CreateUserDTO
@@ -45,6 +39,31 @@ export interface CreateUserDTO {
      * @memberof CreateUserDTO
      */
     'dob': string;
+}
+/**
+ * 
+ * @export
+ * @interface Error400Dto
+ */
+export interface Error400Dto {
+    /**
+     * 
+     * @type {number}
+     * @memberof Error400Dto
+     */
+    'statusCode': number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Error400Dto
+     */
+    'message': Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof Error400Dto
+     */
+    'error': string;
 }
 /**
  * 
@@ -72,10 +91,22 @@ export interface UserDTO {
     'name': string;
     /**
      * Date Of Birth
-     * @type {object}
+     * @type {string}
      * @memberof UserDTO
      */
-    'dob': object;
+    'dob': string;
+    /**
+     * Email address
+     * @type {string}
+     * @memberof UserDTO
+     */
+    'email': string;
+    /**
+     * Has email address been verified
+     * @type {boolean}
+     * @memberof UserDTO
+     */
+    'emailIsVerified': boolean;
 }
 
 /**
@@ -84,35 +115,6 @@ export interface UserDTO {
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        homeControllerGetHome: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
         /**
          * 
          * @param {CreateUserDTO} createUserDTO 
@@ -199,15 +201,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async homeControllerGetHome(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.homeControllerGetHome(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @param {CreateUserDTO} createUserDTO 
          * @param {string} [authorization] Bearer authorization
          * @param {*} [options] Override http request option.
@@ -239,14 +232,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        homeControllerGetHome(options?: any): AxiosPromise<void> {
-            return localVarFp.homeControllerGetHome(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {CreateUserDTO} createUserDTO 
          * @param {string} [authorization] Bearer authorization
          * @param {*} [options] Override http request option.
@@ -275,14 +260,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 export interface DefaultApiInterface {
     /**
      * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApiInterface
-     */
-    homeControllerGetHome(options?: AxiosRequestConfig): AxiosPromise<void>;
-
-    /**
-     * 
      * @param {CreateUserDTO} createUserDTO 
      * @param {string} [authorization] Bearer authorization
      * @param {*} [options] Override http request option.
@@ -309,16 +286,6 @@ export interface DefaultApiInterface {
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI implements DefaultApiInterface {
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public homeControllerGetHome(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).homeControllerGetHome(options).then((request) => request(this.axios, this.basePath));
-    }
-
     /**
      * 
      * @param {CreateUserDTO} createUserDTO 

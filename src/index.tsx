@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { LoginForm } from "./LoginForm";
 import SuperTokens, { SuperTokensWrapper } from "supertokens-auth-react";
 import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
+import EmailVerification from "supertokens-auth-react/recipe/emailverification";
 import Session, { SessionAuth } from "supertokens-auth-react/recipe/session";
 import * as config from "./config";
 import { MantineProvider } from "@mantine/core";
@@ -17,7 +18,7 @@ SuperTokens.init({
     apiDomain: config.REACT_APP_API_DOMAIN,
     websiteDomain: config.REACT_APP_APP_DOMAIN,
     apiBasePath: "/auth",
-    websiteBasePath: "/login",
+    websiteBasePath: "/auth",
   },
   recipeList: [
     EmailPassword.init({
@@ -32,6 +33,9 @@ SuperTokens.init({
         }
         return undefined;
       },
+    }),
+    EmailVerification.init({
+      mode: "OPTIONAL",
     }),
     Session.init(),
   ],

@@ -4,6 +4,7 @@ import { match } from "ts-pattern";
 import { Text } from "@mantine/core";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { ProfileDetailsForm } from "./DetailsForm";
 
 export const Profile: React.FC = () => {
   const response = useQuery("current-user", () => api.user.getMe());
@@ -12,12 +13,7 @@ export const Profile: React.FC = () => {
   return match(response)
     .with(
       { status: "success", data: { type: ApiResult.success } },
-      ({ data: { data: user } }) => (
-        <div>
-          <Text>Name: {user.name}</Text>
-          <Text>DOB: {user.dob as unknown as string}</Text>
-        </div>
-      )
+      ({ data: { data: user } }) => <ProfileDetailsForm user={user} />
     )
     .with({ status: "success", data: { type: ApiResult.notFound } }, () => {
       navigate("/onboarding");

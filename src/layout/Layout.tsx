@@ -7,7 +7,7 @@ import { Outlet } from "react-router-dom";
 export const Layout = () => {
   const logout = useCallback(async () => {
     await signOut();
-    window.location.href = "/login";
+    window.location.href = "/auth";
   }, []);
 
   return (
