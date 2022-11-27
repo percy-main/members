@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/onboarding",
+    path: "onboarding",
     element: <Onboarding />,
   },
 ]);
